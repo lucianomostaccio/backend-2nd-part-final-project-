@@ -1,0 +1,15 @@
+<h1>Chat</h1>
+
+<ul id="ulMessages">
+  {{#each messages}}
+    <li class="message">{{user}}: {{message}} ({{formatTimestamp timestamp}})</li>
+  {{/each}}
+</ul>
+
+<form id="formMessage">
+  <input type="text" name="message" id="inputMessage">
+  <button type="submit">Enviar</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/chat.client.js"></script>

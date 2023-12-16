@@ -1,0 +1,26 @@
+{{!-- main template - will apply to all parts (parts will be added within body) --}}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {{!-- we use dynamic style to later indicate the style file in views.router for each page --}}
+    <link rel="stylesheet" href="/css/globalStyles.css"> 
+    <link rel="stylesheet" href="/css/{{style}}"> 
+    <title>{{titulo}}</title>
+  </head>
+  <body>
+    <header>
+      {{>navbar}} {{!-- navbar partial dynamic import --}}
+    </header>
+    <main>
+      {{{body}}}
+    </main>
+    <footer>
+      {{>footer}} {{!-- footer partial dynamic import --}}
+    </footer>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/index.js"></script>
+  </body>
+</html>
