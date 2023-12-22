@@ -8,18 +8,65 @@ const productManager = new ProductManager();
 // Obtener todos los productos
 router.get("/", async (req, res) => {
   try {
-    const limit = Number(req.query.limit);
-    const products = await productManager.getProducts();
-    if (!isNaN(limit)) {
-      res.json(products.slice(0, limit));
-    } else {
-      res.json(products);
-    }
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const sort = req.query.sort === "desc" ? -1 : 1;
+    const query = req.query.query || {};
+
+
+    const options = {
+      page,
+      limit,
+    };
+
+    // Construir objeto de búsqueda para aplicar el filtro
+    const searchQuery = {
+      $or: [
+        { category: { $regex: query, $options: "i" } },
+        { status: { $regex: query, $options: "i" } },
+      ],
+    };
+
+
+    // Realizar la búsqueda y aplicar paginación
+    const result = await productManager.getProducts(options, searchQuery, sort);
+
+    const totalPages = result.totalPages;
+    const hasPrevPage = result.hasPrevPage;
+    const hasNextPage = result.hasNextPage;
+    const prevLink = hasPrevPage ? `/products?page=${page - 1}&limit=${limit}` : null;
+    const nextLink = hasNextPage ? `/products?page=${page + 1}&limit=${limit}` : null;
+
+    res.json({
+      status: "success",
+      payload: result.docs,
+      totalPages,
+      prevPage: page - 1,
+      nextPage: page + 1,
+      page,
+      hasPrevPage,
+      hasNextPage,
+      prevLink,
+      nextLink,
+    });
   } catch (error) {
     console.error("Error al obtener los productos:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 });
+
+
+  //   const products = await productManager.getProducts();
+  //   if (!isNaN(limit)) {
+  //     res.json(products.slice(0, limit));
+  //   } else {
+  //     res.json(products);
+  //   }
+  // } catch (error) {
+  //   console.error("Error al obtener los productos:", error);
+  //   res.status(500).json({ error: "Error interno del servidor" });
+  // }
+// });
 
 // Obtener un producto por ID
 router.get("/:pid", async (req, res) => {

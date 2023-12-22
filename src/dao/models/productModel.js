@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const randomUUID = require("node:crypto");
-// const productsCollection = "products";
+const mongoosePaginate = require("mongoose-paginate-v2");
+
 
 const productsSchema = new mongoose.Schema(
   {
@@ -22,6 +23,8 @@ const productsSchema = new mongoose.Schema(
   }
 );
 
-const product = mongoose.model("product", productsSchema);
+productsSchema.plugin(mongoosePaginate);
 
-module.exports = product;
+const ProductModel = mongoose.model("Product", productsSchema);
+
+module.exports = ProductModel;

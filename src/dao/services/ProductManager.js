@@ -12,6 +12,7 @@ class ProductManager {
       );
     }
   }
+
   //save all products in DB
   async saveProductsToDatabase() {
     try {
@@ -23,14 +24,16 @@ class ProductManager {
   }
 
   //gather all products from DB
-  async getProducts() {
+  async getProducts(options, searchQuery, sort) {
     try {
-      return await ProductModel.find().lean();
+      // @ts-ignore
+      const result = await ProductModel.paginate(searchQuery, {
+        ...options,
+        sort: sort,
+      });
+      return result;
     } catch (err) {
-      console.error(
-        "Error al obtener los productos desde la base de datos:",
-        err
-      );
+      console.error("Error al obtener los productos desde la base de datos:", err);
       return [];
     }
   }

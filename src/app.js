@@ -2,6 +2,7 @@
 const express = require("express");
 const path = require("path");
 const { Server } = require("socket.io");
+const viewsRouter = require("./routes/views.router.js");
 const apiRouter = require("./routes/api.router.js");
 const onConnection = require("./controllers/socket.controller.js");
 // const inyectSocketServer = require("./controllers/socket.controller.js");
@@ -38,4 +39,5 @@ const connectToDatabase = async () => {
 connectToDatabase();
 
 // routers
+app.use("/", viewsRouter);
 app.use("/api/", apiRouter)
