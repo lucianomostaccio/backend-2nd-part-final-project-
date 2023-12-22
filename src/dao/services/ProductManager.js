@@ -1,4 +1,4 @@
-const ProductModel = require("../../models/productModel.js");
+const ProductModel = require("../models/productModel.js");
 
 class ProductManager {
   //load products from db

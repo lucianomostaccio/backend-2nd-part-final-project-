@@ -1,4 +1,4 @@
-const CartModel = require("../../models/cartModel.js");
+const CartModel = require("../models/cartModel.js");
 
 class CartManager {
   // Cargar carts desde la base de datos
@@ -22,7 +22,7 @@ class CartManager {
 
   // Agregar cart a la base de datos
   async addCart(cartData) {
-    const newCart = new CartModel({   
+    const newCart = new CartModel({
       products: [],
     });
 

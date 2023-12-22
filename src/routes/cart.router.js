@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const CartManager = require("../dao/services/mongodb/CartManager");
+const CartManager = require("../dao/services/CartManager");
 
 const cartManager = new CartManager();
 

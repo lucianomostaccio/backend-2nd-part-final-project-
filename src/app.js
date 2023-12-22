@@ -1,9 +1,7 @@
 // server //
 const express = require("express");
 const path = require("path");
-const handlebars = require("express-handlebars");
 const { Server } = require("socket.io");
-const viewsRouter = require("./routes/views.router.js");
 const apiRouter = require("./routes/api.router.js");
 const onConnection = require("./controllers/socket.controller.js");
 // const inyectSocketServer = require("./controllers/socket.controller.js");
@@ -20,11 +18,6 @@ const server = app.listen(port, () => {
 // sockets server
 const websocketServer = new Server(server); 
 websocketServer.on('connection', onConnection(websocketServer));
-
-// handlebars engine & templates:
-app.engine("handlebars", handlebars.engine());
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "handlebars");
 
 // middlewares
 app.use(express.json());
@@ -45,5 +38,4 @@ const connectToDatabase = async () => {
 connectToDatabase();
 
 // routers
-app.use("/", viewsRouter);
 app.use("/api/", apiRouter)
