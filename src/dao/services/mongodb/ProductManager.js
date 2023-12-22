@@ -5,10 +5,6 @@ class ProductManager {
   async loadProductsFromDatabase() {
     try {
       this.products = await ProductModel.find();
-      const lastProduct = this.products[this.products.length - 1];
-      if (lastProduct) {
-        this.nextId = lastProduct.id + 1;
-      }
     } catch (err) {
       console.error(
         "Error al cargar los productos desde la base de datos:",
@@ -29,7 +25,7 @@ class ProductManager {
   //gather all products from DB
   async getProducts() {
     try {
-      return await ProductModel.find();
+      return await ProductModel.find().lean();
     } catch (err) {
       console.error(
         "Error al obtener los productos desde la base de datos:",
@@ -55,9 +51,9 @@ class ProductManager {
   }
 
   //traer producto por id
-  async getProductById(id) {
+  async getProductById(_id) {
     try {
-      return await ProductModel.findById(id);
+      return await ProductModel.findById(_id).lean();
     } catch (err) {
       console.error(
         "Error al obtener el producto desde la base de datos:",
@@ -68,9 +64,9 @@ class ProductManager {
   }
 
   //updatear producto obtenido con id en el paso anterior
-  async updateProduct(id, updatedProduct) {
+  async updateProduct(_id, updatedProduct) {
     try {
-      const productToUpdate = await ProductModel.findById(id);
+      const productToUpdate = await ProductModel.findById(_id);
 
       if (productToUpdate) {
         // Actualizar el producto utilizando el método save de Mongoose
@@ -87,9 +83,9 @@ class ProductManager {
   }
 
   //borrar producto por id
-  async deleteProduct(id) {
+  async deleteProduct(_id) {
     try {
-      const deletedProduct = await ProductModel.findByIdAndDelete(id);
+      const deletedProduct = await ProductModel.findByIdAndDelete(_id);
 
       if (deletedProduct) {
         console.log("Producto eliminado:", deletedProduct);

@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
+const randomUUID = require("node:crypto");
 
 const cartSchema = new mongoose.Schema({
-  id: { type: Number, required: true },
+  _id: { type: String, default: randomUUID },
   products: [
     {
-      id: { type: Number, required: true },
+      _id: { type: String, default: randomUUID },
       quantity: { type: Number, required: true },
     },
   ],

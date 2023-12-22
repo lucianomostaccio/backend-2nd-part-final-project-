@@ -8,7 +8,7 @@ function onConnection(webSocketServer) {
     console.log(`New client connected: ${socket.id}`);
     // socket.broadcast.emit("newUser", socket.handshake.auth.usuario);
 
-    // Emitir historial de mensajes cuando un cliente se conecta
+    // Emit messages history log when a new client connects
     const chatHistory = await messagesManager.findAll();
     socket.emit("chatHistory", chatHistory);
 
