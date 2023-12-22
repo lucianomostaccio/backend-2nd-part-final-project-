@@ -7,6 +7,7 @@ const apiRouter = require("./routes/api.router.js");
 const onConnection = require("./controllers/socket.controller.js");
 // const inyectSocketServer = require("./controllers/socket.controller.js");
 const mongoose = require("mongoose");
+
 require('dotenv').config();
 
 // initialize server

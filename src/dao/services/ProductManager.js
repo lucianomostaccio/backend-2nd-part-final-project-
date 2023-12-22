@@ -27,11 +27,12 @@ class ProductManager {
   async getProducts(options, searchQuery, sort) {
     try {
       // @ts-ignore
-      const result = await ProductModel.paginate(searchQuery, {
+      const products = await ProductModel.paginate(searchQuery, {
         ...options,
         sort: sort,
       });
-      return result;
+      console.log(products)
+      return products;
     } catch (err) {
       console.error("Error al obtener los productos desde la base de datos:", err);
       return [];

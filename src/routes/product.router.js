@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ProductManager = require("../dao/services/ProductManager");
 const productManager = new ProductManager();
+const ProductModel = require("../dao/models/productModel.js")
 
 // Rutas para manejo de productos
 
@@ -31,6 +32,9 @@ router.get("/", async (req, res) => {
     // Realizar la búsqueda y aplicar paginación
     const result = await productManager.getProducts(options, searchQuery, sort);
 
+    console.log(result.docs);
+  
+
     const totalPages = result.totalPages;
     const hasPrevPage = result.hasPrevPage;
     const hasNextPage = result.hasNextPage;
@@ -39,15 +43,17 @@ router.get("/", async (req, res) => {
 
     res.json({
       status: "success",
-      payload: result.docs,
-      totalPages,
-      prevPage: page - 1,
-      nextPage: page + 1,
-      page,
-      hasPrevPage,
-      hasNextPage,
-      prevLink,
-      nextLink,
+      data:{
+        payload: result.docs,
+        totalPages,
+        prevPage: page - 1,
+        nextPage: page + 1,
+        page,
+        hasPrevPage,
+        hasNextPage,
+        prevLink,
+        nextLink,
+      }
     });
   } catch (error) {
     console.error("Error al obtener los productos:", error);

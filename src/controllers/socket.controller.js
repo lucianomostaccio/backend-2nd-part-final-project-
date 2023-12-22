@@ -11,7 +11,7 @@ function onConnection(webSocketServer) {
     socket.on("newProduct", async (productData) => {
       try {
         await productManager.addProduct(productData);
-        const allProducts = productManager.getProducts();
+        const allProducts = productManager.getProducts.lean();
         webSocketServer.emit("updateProductList", allProducts);
       } catch (error) {
         console.error("Error adding the product in real time:", error);
@@ -21,7 +21,7 @@ function onConnection(webSocketServer) {
     socket.on("deleteProduct", async (productId) => {
       try {
         await productManager.deleteProduct(productId);
-        const allProducts = productManager.getProducts();
+        const allProducts = productManager.getProducts.lean();
         webSocketServer.emit("updateProductList", allProducts);
       } catch (error) {
         console.error("Error deleting the product in real time:", error);

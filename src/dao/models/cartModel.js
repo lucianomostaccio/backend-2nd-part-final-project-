@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const randomUUID = require("node:crypto");
 
+const cartCollection = 'carts'
+
 const cartSchema = new mongoose.Schema({
   _id: { type: String, default: randomUUID },
   products: [
@@ -11,6 +13,6 @@ const cartSchema = new mongoose.Schema({
   ],
 });
 
-const CartModel = mongoose.model("Cart", cartSchema);
+const CartModel = mongoose.model(cartCollection, cartSchema);
 
 module.exports = CartModel;

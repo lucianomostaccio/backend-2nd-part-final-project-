@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Obtener un cart por ID
+// Obtener un cart por ID (sin populate)
 router.get("/:cid", async (req, res) => {
   try {
     const cartId = req.params.cid;
@@ -33,6 +33,21 @@ router.get("/:cid", async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
+// Obtener el carrito con productos completos usando populate
+router.get("/:cid/populated", async (req, res) => {
+  try {
+    const cartId = req.params.cid;
+
+    const populatedCart = await cartManager.getPopulatedCart(cartId);
+
+    res.json({ status: "success", payload: populatedCart });
+  } catch (error) {
+    console.error("Error al obtener el carrito con productos completos:", error);
+    res.status(500).json({ status: "error", error: "Error interno del servidor" });
+  }
+});
+
 
 // Actualizar el carrito con un arreglo de productos
 router.put("/:cid", async (req, res) => {
@@ -59,20 +74,6 @@ router.delete("/:cid", async (req, res) => {
     res.json({ status: "success", message: "Todos los productos eliminados del carrito" });
   } catch (error) {
     console.error("Error al eliminar todos los productos del carrito:", error);
-    res.status(500).json({ status: "error", error: "Error interno del servidor" });
-  }
-});
-
-// Obtener el carrito con productos completos usando populate
-router.get("/:cid", async (req, res) => {
-  try {
-    const cartId = req.params.cid;
-
-    const populatedCart = await cartManager.getPopulatedCart(cartId);
-
-    res.json({ status: "success", payload: populatedCart });
-  } catch (error) {
-    console.error("Error al obtener el carrito con productos completos:", error);
     res.status(500).json({ status: "error", error: "Error interno del servidor" });
   }
 });
